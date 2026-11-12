@@ -4,18 +4,15 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-import '../game/board_layout.dart';
 import '../game/game_engine.dart';
-import '../painters/game_painter.dart';
 import '../services/game_feedback.dart';
 import '../services/settings_controller.dart';
 import '../theme/app_theme.dart';
 import '../widgets/common/fade_route.dart';
-import '../widgets/overlays/game_over_overlay.dart';
-import '../widgets/overlays/level_banner.dart';
-import '../widgets/hud/next_bubble_preview.dart';
-import '../widgets/overlays/pause_overlay.dart';
+import '../widgets/game_board.dart';
 import '../widgets/hud/score_panel.dart';
+import '../widgets/overlays/game_over_overlay.dart';
+import '../widgets/overlays/pause_overlay.dart';
 import 'settings_screen.dart';
 
 class GameScreen extends StatefulWidget {
@@ -42,12 +39,10 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   late final GameFeedback _feedback = GameFeedback(widget.services.settings);
   late final GameEngine _engine = (widget.engine ?? GameEngine())
     ..onSound = _feedback.onGameSound;
-  late final GamePainter _painter = GamePainter(_engine);
   late final Ticker _ticker = createTicker(_onTick);
   late final AppLifecycleListener _lifecycle;
   final ValueNotifier<int> _best = ValueNotifier<int>(0);
   Duration _lastTick = Duration.zero;
-  Size? _pendingSize;
   _GameOverInfo? _gameOver;
   int _bestAtStart = 0;
   bool _bestAnnounced = false;
@@ -207,7 +202,6 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     final gameOver = _gameOver;
-    _painter.fontFamily = Theme.of(context).textTheme.titleLarge?.fontFamily;
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {
@@ -228,7 +222,7 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
                       streak: _engine.streak,
                       onPause: _pause,
                     ),
-                    Expanded(child: _buildBoard()),
+                    Expanded(child: GameBoard(engine: _engine)),
                   ],
                 ),
                 if (_engine.paused.value && gameOver == null)
@@ -259,104 +253,6 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
           ),
         ),
       ),
-    );
-  }
-
-  /// Configuring may start a game, which updates notifiers that widgets
-  /// outside this LayoutBuilder listen to, so it must not run during layout.
-  void _scheduleConfigure(Size size) {
-    if (_engine.isConfiguredFor(size) || _pendingSize == size) return;
-    _pendingSize = size;
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      if (!mounted || _pendingSize != size) return;
-      _pendingSize = null;
-      _engine.configure(size);
-      setState(() {});
-    });
-  }
-
-  Widget _buildBoard() {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        _scheduleConfigure(constraints.biggest);
-        if (!_engine.isReady) return const SizedBox.shrink();
-        final layout = _engine.layout;
-        final scale = layout.scale;
-        final shooter = layout.toPixels(layout.shooterPosition);
-        final hudTop = (layout.worldHeight - BoardLayout.launcherAreaHeight) * scale;
-        final hudHeight = BoardLayout.launcherAreaHeight * scale;
-        final sideWidth = shooter.dx - 2.0 * scale;
-
-        return Stack(
-          children: [
-            Positioned.fill(
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: AppColors.board.withValues(alpha: 0.55),
-                  border: Border.symmetric(
-                    vertical: BorderSide(color: AppColors.panelBorder.withValues(alpha: 0.4)),
-                  ),
-                ),
-              ),
-            ),
-            Positioned.fill(
-              child: GestureDetector(
-                key: const ValueKey('game-board'),
-                behavior: HitTestBehavior.opaque,
-                // Dragging only aims; a tap fires in the current direction.
-                onPanStart: (d) => _engine.aimAtPixels(d.localPosition),
-                onPanUpdate: (d) => _engine.aimAtPixels(d.localPosition),
-                onTapUp: (_) => _engine.fire(),
-                child: RepaintBoundary(
-                  child: CustomPaint(painter: _painter, size: Size.infinite),
-                ),
-              ),
-            ),
-            Positioned(
-              left: 0,
-              top: hudTop,
-              width: sideWidth,
-              height: hudHeight,
-              child: Center(
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: NextBubblePreview(
-                    key: const ValueKey('next-preview'),
-                    color: _engine.nextColor,
-                    rainbow: _engine.nextIsRainbow,
-                    bubbleSize: 1.7 * scale,
-                    onSwap: _engine.swapBubbles,
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              right: 0,
-              top: hudTop,
-              width: sideWidth,
-              height: hudHeight,
-              child: IgnorePointer(
-                child: Center(
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: ShotsIndicator(
-                      remaining: _engine.shotsUntilNewRow,
-                      total: GameEngine.shotsPerRow,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            if (_engine.phase.value == GamePhase.levelCleared)
-              Positioned.fill(
-                child: LevelClearedBanner(
-                  bonus: _engine.lastLevelBonus,
-                  nextLevel: _engine.level.value + 1,
-                ),
-              ),
-          ],
-        );
-      },
     );
   }
 }
