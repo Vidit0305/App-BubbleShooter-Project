@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:bubble_shooter/game/game_engine.dart';
-import 'package:bubble_shooter/main.dart';
+import 'package:bubble_shooter/app.dart';
 import 'package:bubble_shooter/screens/game_screen.dart';
 import 'package:bubble_shooter/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
