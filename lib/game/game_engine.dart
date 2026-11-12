@@ -9,6 +9,7 @@ import 'bubble_color.dart';
 import 'bubble_grid.dart';
 import 'bubble_shooter.dart';
 import 'collision_detector.dart';
+import 'game_config.dart';
 import 'game_effects.dart';
 import 'match_finder.dart';
 import 'scoring.dart';
@@ -87,17 +88,13 @@ class GameEngine extends ChangeNotifier {
     effects = GameEffects(_random);
   }
 
-  static const int shotsPerRow = 5;
-
-  /// Bubble speed in world units (bubble radii) per second.
-  static const double bubbleSpeed = 46;
-  static const double rowSlideSpeed = 10;
-  static const double levelIntroDuration = 0.55;
-  static const double levelClearDelay = 2.0;
-
-  /// Largest simulated frame step; longer frames are clamped so a hiccup
-  /// never teleports the bubble.
-  static const double maxFrameStep = 1 / 20;
+  // Shortcuts to the tuning values in GameConfig.
+  static const int shotsPerRow = GameConfig.shotsPerRow;
+  static const double bubbleSpeed = GameConfig.bubbleSpeed;
+  static const double rowSlideSpeed = GameConfig.rowSlideSpeed;
+  static const double levelIntroDuration = GameConfig.levelIntroDuration;
+  static const double levelClearDelay = GameConfig.levelClearDelay;
+  static const double maxFrameStep = GameConfig.maxFrameStep;
 
   final math.Random _random;
   GameSoundCallback? onSound;
@@ -166,7 +163,7 @@ class GameEngine extends ChangeNotifier {
 
   /// True when the lowest bubbles are close to the danger line.
   bool get isNearDanger =>
-      isReady && grid.lowestOccupiedRow >= layout.dangerRow - 2;
+      isReady && grid.lowestOccupiedRow >= layout.dangerRow - GameConfig.dangerWarningRows;
 
   /// Predicted path for the current aim (only while aiming).
   TrajectoryResult? get trajectory {
@@ -227,8 +224,9 @@ class GameEngine extends ChangeNotifier {
   /// Number of starting rows for a level (7, 8, then 9), limited so there is
   /// always room above the danger line.
   int initialRowsFor(int level) {
-    final wanted = math.min(6 + level, 9);
-    return math.max(3, math.min(wanted, layout.dangerRow - 4));
+    final wanted = math.min(GameConfig.baseRows + level, GameConfig.maxStartRows);
+    return math.max(GameConfig.minStartRows,
+        math.min(wanted, layout.dangerRow - GameConfig.safetyRows));
   }
 
   void _startLevel(int newLevel) {
@@ -256,7 +254,8 @@ class GameEngine extends ChangeNotifier {
   /// from an already placed neighbor); clustering decreases with level.
   void _generateBoard(int lvl) {
     final rows = initialRowsFor(lvl);
-    final clusterChance = math.max(0.15, 0.5 - 0.07 * (lvl - 1));
+    final clusterChance = math.max(GameConfig.minClusterChance,
+        GameConfig.clusterChance - GameConfig.clusterChanceStep * (lvl - 1));
     const palette = BubbleColor.values;
     for (var r = 0; r < rows; r++) {
       for (var c = 0; c < grid.columnsInRow(r); c++) {
