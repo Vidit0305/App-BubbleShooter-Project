@@ -7,7 +7,7 @@ import 'package:flutter/scheduler.dart';
 import '../game/board_layout.dart';
 import '../game/game_engine.dart';
 import '../painters/game_painter.dart';
-import '../services/audio_service.dart';
+import '../services/game_feedback.dart';
 import '../services/settings_controller.dart';
 import '../theme/app_theme.dart';
 import '../widgets/common/fade_route.dart';
@@ -39,7 +39,9 @@ class _GameOverInfo {
 }
 
 class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateMixin {
-  late final GameEngine _engine = (widget.engine ?? GameEngine())..onSound = _onSound;
+  late final GameFeedback _feedback = GameFeedback(widget.services.settings);
+  late final GameEngine _engine = (widget.engine ?? GameEngine())
+    ..onSound = _feedback.onGameSound;
   late final GamePainter _painter = GamePainter(_engine);
   late final Ticker _ticker = createTicker(_onTick);
   late final AppLifecycleListener _lifecycle;
@@ -134,27 +136,6 @@ class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateM
     } else if (phase == GamePhase.levelCleared || phase == GamePhase.rowSliding) {
       setState(() {}); // shows / hides the level banner
     }
-  }
-
-  void _onSound(GameSound sound, int level) {
-    final (Sfx sfx, int variant, Haptic? haptic) = switch (sound) {
-      GameSound.shoot => (Sfx.shoot, 0, Haptic.selection),
-      GameSound.hit => (Sfx.hit, 0, null),
-      GameSound.bounce => (Sfx.bounce, 0, null),
-      GameSound.swap => (Sfx.swap, 0, Haptic.selection),
-      GameSound.pop => (Sfx.pop, level, level == 0 ? Haptic.light : null),
-      GameSound.fall => (Sfx.fall, 0, null),
-      GameSound.combo => (Sfx.combo, level - 2, null),
-      GameSound.praise => (Sfx.praise, 0, Haptic.medium),
-      GameSound.rainbow => (Sfx.rainbow, 0, Haptic.medium),
-      GameSound.newRow => (Sfx.newRow, 0, Haptic.medium),
-      GameSound.danger => (Sfx.danger, 0, Haptic.heavy),
-      GameSound.newBest => (Sfx.newBest, 0, null),
-      GameSound.levelClear => (Sfx.levelClear, 0, Haptic.heavy),
-      GameSound.gameOver => (Sfx.gameOver, 0, Haptic.heavy),
-    };
-    widget.services.audio.play(sfx, variant: variant);
-    if (haptic != null) _settings.haptic(haptic);
   }
 
   // ---------------------------------------------------------------------------
