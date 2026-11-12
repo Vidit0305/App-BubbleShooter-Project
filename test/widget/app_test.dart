@@ -1,8 +1,8 @@
 import 'dart:math' as math;
 
+import 'package:bubble_shooter/app.dart';
 import 'package:bubble_shooter/game/bubble_color.dart';
 import 'package:bubble_shooter/game/game_engine.dart';
-import 'package:bubble_shooter/app.dart';
 import 'package:bubble_shooter/screens/game_screen.dart';
 import 'package:bubble_shooter/services/audio_service.dart';
 import 'package:bubble_shooter/services/settings_controller.dart';

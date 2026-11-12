@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -16,7 +18,7 @@ Future<void> main() async {
   final audio = AssetAudioService();
   final settings = SettingsController(storage: storage, audio: audio)..load();
   // Audio loads in the background; the game works even if it fails.
-  audio.init();
+  unawaited(audio.init());
 
   runApp(BubbleShooterApp(services: AppServices(settings: settings)));
 }
