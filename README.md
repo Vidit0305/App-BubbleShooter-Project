@@ -55,14 +55,15 @@ flutter analyze
 flutter test
 ```
 
-There are 87 tests:
+There are 105 tests, and GitHub Actions runs them, along with the analyzer, on every push and pull request.
 
-- **Unit tests** (`test/game/`) cover:
+- **Game logic unit tests** (`test/game/`) cover:
   - The hex grid, BFS matching (3, 4+ and diagonal) and floating-bubble detection.
   - Collision without tunneling, wall bounces, snapping and trajectory prediction.
-  - Shooter aim limits and scoring.
+  - Board layout, shooter aim limits and scoring.
   - Engine rules: new row after 5 misses, game over, pause, restart, level clear and frame-rate independence.
   - Combo multiplier, rainbow award and wildcard matching, praise tiers and sound events.
+- **Service unit tests** (`test/services/`) cover settings, storage, and the mapping from game events to sounds and haptics.
 - **Widget tests** (`test/widget/`) cover:
   - Home screen and PLAY.
   - Drag-to-aim without firing, and tap-to-fire with only one bubble in flight.
@@ -110,39 +111,18 @@ Then open `ios/Runner.xcworkspace` in Xcode to set your signing team and archive
 
 ```
 lib/
-  main.dart                     App entry: services, portrait lock, app lifecycle (music)
-  game/                         Pure game logic (no widgets)
-    bubble_color.dart           The six colors and their shades
-    bubble.dart                 GridCell, FlyingBubble (with trail, rainbow flag)
-    bubble_grid.dart            Honeycomb grid: rows/cols, neighbors, row insertion
-    board_layout.dart           Screen <-> world mapping, column count, danger line
-    bubble_shooter.dart         Aim (clamped above horizontal), current/next bubbles
-    collision_detector.dart     Sub-stepped movement, wall bounce, hits, snap cell
-    trajectory_calculator.dart  Aim preview using the same physics as real shots
-    match_finder.dart           BFS same-color groups and floating bubbles
-    scoring.dart                Points, streak multiplier, praise tiers
-    game_effects.dart           Pops, falls, particles, shockwaves, confetti, banners
-    game_engine.dart            Rules, phases, streaks, rainbow, new rows, levels
-  painters/
-    bubble_painter.dart         Glossy bubble, rainbow bubble (cached shaders)
-    brand_painter.dart          Glass bubbles + emblem shared by the icon and home logo
-    game_painter.dart           Board, trajectory, launcher, trail, effects, banners
-  screens/                      home_screen, game_screen, settings_screen
-  widgets/                      Premium background, PLAY button, HUD, overlays, confetti
-  services/
-    storage_service.dart        SharedPreferences wrapper
-    audio_service.dart          audioplayers (low-latency SFX); missing assets skipped
-    settings_controller.dart    Settings, best score, haptics (ChangeNotifier)
-  theme/app_theme.dart          Indigo palette, text styles, glass panel
-assets/sounds/                  Generated WAV effects and music loop
-branding/                       Icon masters (1024, Play Store 512, adaptive foreground)
-tool/                           Sound and icon generators
-test/                           Unit and widget tests
+  main.dart, app.dart   Bootstrap and root widget
+  game/                 Pure game logic and tuning (GameConfig), no widgets
+  painters/             Bubble, brand and board painters
+  screens/              Home, game and settings screens
+  services/             Storage, settings, audio, game feedback
+  theme/                Palette, text styles, glass panel
+  widgets/              GameBoard, plus common/, hud/ and overlays/
+assets/sounds/          Generated sound effects and music
+branding/               Icon masters
+docs/                   Architecture notes
+tool/                   Sound and icon generators
+test/                   game/, services/ and widget/ tests
 ```
 
-### Design notes
-
-- **World units.** The game logic uses world units where the bubble radius is 1. `BoardLayout` picks the column count from the screen width and scales the board to fit, so bubble size, the shooter and the danger line all adapt to the screen.
-- **Physics and prediction.** Bubbles move in fixed 0.25-unit sub-steps, so they cannot tunnel through other bubbles and movement does not depend on frame rate. The trajectory preview uses the same stepping, so the predicted landing cell matches the real one. A test checks this.
-- **Rendering.** The board repaints through a `Listenable` tied to the engine, so the game loop never rebuilds widgets. Effects are drawn by the same painter. The gameplay background is a static frame; the menus use the animated one.
-- **Pause and lifecycle.** Pausing stops the ticker, so nothing advances. The game pauses automatically when the app goes inactive or into the background, and music stops while the app is hidden.
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for how the parts fit together and for the main design decisions, and [CHANGELOG.md](CHANGELOG.md) for release notes.
