@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/premium_background.dart';
+import '../widgets/common/premium_background.dart';
 
 /// Arcade palette: deep indigo background (matching the app icon) with
 /// white / light-blue UI and warm gold accents.

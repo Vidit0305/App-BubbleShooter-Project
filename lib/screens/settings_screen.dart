@@ -1,9 +1,9 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 import '../services/settings_controller.dart';
 import '../theme/app_theme.dart';
-import '../widgets/fade_route.dart';
-import '../widgets/game_button.dart';
+import '../widgets/common/fade_route.dart';
+import '../widgets/common/game_button.dart';
 import 'game_screen.dart';
 
 /// What the game screen should do after settings closes.

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/app_theme.dart';
+import '../../theme/app_theme.dart';
 
 /// Dimmed full-screen barrier with a centered card that pops in.
 /// Absorbs all touches so gameplay underneath cannot be controlled.

@@ -1,4 +1,4 @@
-﻿import 'package:bubble_shooter/game/bubble.dart';
+import 'package:bubble_shooter/game/bubble.dart';
 import 'package:bubble_shooter/game/match_finder.dart';
 import 'package:flutter_test/flutter_test.dart' hide MatchFinder;
 

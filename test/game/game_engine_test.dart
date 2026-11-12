@@ -1,4 +1,4 @@
-﻿import 'dart:math' as math;
+import 'dart:math' as math;
 import 'dart:ui' show Offset, Size;
 
 import 'package:bubble_shooter/game/bubble.dart';

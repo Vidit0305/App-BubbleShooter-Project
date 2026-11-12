@@ -3,7 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-import '../game/game_effects.dart';
+import '../../game/game_effects.dart';
 
 /// A one-shot confetti shower over its area (e.g. a new high score).
 /// Reuses the game's confetti physics; never blocks touches.

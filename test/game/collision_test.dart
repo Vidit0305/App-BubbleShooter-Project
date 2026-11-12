@@ -1,4 +1,4 @@
-﻿import 'dart:math' as math;
+import 'dart:math' as math;
 
 import 'package:bubble_shooter/game/bubble.dart';
 import 'package:bubble_shooter/game/bubble_grid.dart';

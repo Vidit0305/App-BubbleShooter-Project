@@ -1,11 +1,11 @@
-﻿import 'dart:math' as math;
+import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../game/scoring.dart';
-import '../theme/app_theme.dart';
-import 'game_button.dart';
+import '../../game/scoring.dart';
+import '../../theme/app_theme.dart';
+import '../common/game_button.dart';
 
 /// Top bar: pause button, current score (bumps when it grows) with a combo
 /// badge, best score and level.

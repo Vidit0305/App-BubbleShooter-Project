@@ -6,9 +6,9 @@ import '../game/bubble_color.dart';
 import '../painters/brand_painter.dart';
 import '../services/settings_controller.dart';
 import '../theme/app_theme.dart';
-import '../widgets/fade_route.dart';
-import '../widgets/game_button.dart';
-import '../widgets/play_button.dart';
+import '../widgets/common/fade_route.dart';
+import '../widgets/common/game_button.dart';
+import '../widgets/common/play_button.dart';
 import 'game_screen.dart';
 import 'settings_screen.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../theme/app_theme.dart';
-import 'game_button.dart';
+import '../../theme/app_theme.dart';
+import '../common/game_button.dart';
 import 'overlay_card.dart';
 
 class PauseOverlay extends StatelessWidget {

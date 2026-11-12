@@ -1,9 +1,9 @@
-﻿import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../game/bubble_color.dart';
-import '../painters/bubble_painter.dart';
-import '../theme/app_theme.dart';
+import '../../game/bubble_color.dart';
+import '../../painters/bubble_painter.dart';
+import '../../theme/app_theme.dart';
 
 /// Shows the next bubble beside the launcher. Tapping it swaps the loaded
 /// and next bubbles.

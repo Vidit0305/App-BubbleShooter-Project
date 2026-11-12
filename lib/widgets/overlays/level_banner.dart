@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/app_theme.dart';
+import '../../theme/app_theme.dart';
 
 /// Brief "LEVEL CLEARED" notification shown between endless levels.
 class LevelClearedBanner extends StatelessWidget {

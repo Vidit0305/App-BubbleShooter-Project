@@ -1,4 +1,4 @@
-﻿import 'dart:math' as math;
+import 'dart:math' as math;
 
 import 'package:bubble_shooter/game/bubble_color.dart';
 import 'package:bubble_shooter/game/bubble_shooter.dart';

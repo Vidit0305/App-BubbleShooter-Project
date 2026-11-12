@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-import '../theme/app_theme.dart';
+import '../../theme/app_theme.dart';
 
 /// The hero call-to-action: a golden glossy pill that gently breathes and
 /// has a light sweep passing across it.

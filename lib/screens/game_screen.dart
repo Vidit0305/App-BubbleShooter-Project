@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -10,12 +10,12 @@ import '../painters/game_painter.dart';
 import '../services/audio_service.dart';
 import '../services/settings_controller.dart';
 import '../theme/app_theme.dart';
-import '../widgets/fade_route.dart';
-import '../widgets/game_over_overlay.dart';
-import '../widgets/level_banner.dart';
-import '../widgets/next_bubble_preview.dart';
-import '../widgets/pause_overlay.dart';
-import '../widgets/score_panel.dart';
+import '../widgets/common/fade_route.dart';
+import '../widgets/overlays/game_over_overlay.dart';
+import '../widgets/overlays/level_banner.dart';
+import '../widgets/hud/next_bubble_preview.dart';
+import '../widgets/overlays/pause_overlay.dart';
+import '../widgets/hud/score_panel.dart';
 import 'settings_screen.dart';
 
 class GameScreen extends StatefulWidget {
