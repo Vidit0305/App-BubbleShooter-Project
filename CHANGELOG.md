@@ -7,6 +7,9 @@
 - The NEW ROW counter pulses on the last shot before a new row.
 - A CI check for code formatting (`dart format`, 100-column lines).
 
+### Documentation
+- Updated architecture documentation with the new screen breakdown.
+
 ## 1.1.0
 
 ### Changed

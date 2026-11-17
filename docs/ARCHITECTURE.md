@@ -38,7 +38,11 @@ lib/
     bubble_painter.dart         Glossy bubble and rainbow bubble (cached shaders)
     brand_painter.dart          Glass bubbles + emblem shared by the icon and logo
     game_painter.dart           Board, trajectory, launcher, trail, effects, banners
-  screens/                      home_screen, game_screen, settings_screen
+  screens/
+    home_screen.dart            Home menu with Play, How to play, and settings
+    how_to_play_screen.dart     Illustrated guide to rules, matches and drops
+    game_screen.dart            Active gameplay and pause overlay
+    settings_screen.dart        Audio and haptic settings, statistics
   services/
     storage_service.dart        SharedPreferences wrapper
     settings_controller.dart    Settings, best score, haptics (ChangeNotifier)
