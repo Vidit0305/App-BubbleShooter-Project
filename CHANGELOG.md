@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+### Added
+- A How to play screen, opened from the home screen.
+- The NEW ROW counter pulses on the last shot before a new row.
+- A CI check for code formatting (`dart format`, 100-column lines).
+
 ## 1.1.0
 
 ### Changed

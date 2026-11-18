@@ -55,7 +55,7 @@ flutter analyze
 flutter test
 ```
 
-There are 105 tests, and GitHub Actions runs them, along with the analyzer, on every push and pull request.
+There are 108 tests. GitHub Actions runs them, along with the formatting check and the analyzer, on every push and pull request.
 
 - **Game logic unit tests** (`test/game/`) cover:
   - The hex grid, BFS matching (3, 4+ and diagonal) and floating-bubble detection.
