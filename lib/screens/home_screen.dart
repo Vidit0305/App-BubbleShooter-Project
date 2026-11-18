@@ -10,6 +10,7 @@ import '../widgets/common/fade_route.dart';
 import '../widgets/common/game_button.dart';
 import '../widgets/common/play_button.dart';
 import 'game_screen.dart';
+import 'how_to_play_screen.dart';
 import 'settings_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -27,6 +28,11 @@ class HomeScreen extends StatelessWidget {
   void _openSettings(BuildContext context) {
     _settings.click();
     Navigator.of(context).push(FadeRoute<void>(SettingsScreen(services: services)));
+  }
+
+  void _openHowToPlay(BuildContext context) {
+    _settings.click();
+    Navigator.of(context).push(FadeRoute<void>(HowToPlayScreen(services: services)));
   }
 
   @override
@@ -66,26 +72,35 @@ class HomeScreen extends StatelessWidget {
                           SizedBox(height: compact ? 22 : 34),
                           ListenableBuilder(
                             listenable: _settings,
-                            builder: (_, _) => Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                _LabeledIconButton(
-                                  icon: Icons.settings_rounded,
-                                  label: 'SETTINGS',
-                                  onPressed: () => _openSettings(context),
-                                ),
-                                const SizedBox(width: 44),
-                                _LabeledIconButton(
-                                  icon: _settings.soundOn
-                                      ? Icons.volume_up_rounded
-                                      : Icons.volume_off_rounded,
-                                  label: _settings.soundOn ? 'SOUND ON' : 'SOUND OFF',
-                                  onPressed: () async {
-                                    await _settings.setSoundOn(!_settings.soundOn);
-                                    _settings.click();
-                                  },
-                                ),
-                              ],
+                            builder: (_, _) => FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  _LabeledIconButton(
+                                    icon: Icons.settings_rounded,
+                                    label: 'SETTINGS',
+                                    onPressed: () => _openSettings(context),
+                                  ),
+                                  const SizedBox(width: 28),
+                                  _LabeledIconButton(
+                                    icon: Icons.menu_book_rounded,
+                                    label: 'HOW TO PLAY',
+                                    onPressed: () => _openHowToPlay(context),
+                                  ),
+                                  const SizedBox(width: 28),
+                                  _LabeledIconButton(
+                                    icon: _settings.soundOn
+                                        ? Icons.volume_up_rounded
+                                        : Icons.volume_off_rounded,
+                                    label: _settings.soundOn ? 'SOUND ON' : 'SOUND OFF',
+                                    onPressed: () async {
+                                      await _settings.setSoundOn(!_settings.soundOn);
+                                      _settings.click();
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           const Spacer(),
