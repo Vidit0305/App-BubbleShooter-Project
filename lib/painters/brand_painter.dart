@@ -98,8 +98,11 @@ class GlassBubble {
     canvas.restore();
 
     // Sparkle.
-    canvas.drawCircle(c + Offset(-r * 0.58, -r * 0.05), r * 0.075,
-        Paint()..color = Colors.white.withValues(alpha: 0.85));
+    canvas.drawCircle(
+      c + Offset(-r * 0.58, -r * 0.05),
+      r * 0.075,
+      Paint()..color = Colors.white.withValues(alpha: 0.85),
+    );
   }
 
   /// Four-pointed sparkle star.
@@ -139,11 +142,12 @@ class BrandArt {
     canvas.drawRect(
       rect,
       Paint()
-        ..shader = ui.Gradient.radial(p(0.5, 0.38), s * 0.95, const [
-          Color(0xFF4433E0),
-          Color(0xFF231A86),
-          Color(0xFF0C0838),
-        ], const [0.0, 0.55, 1.0]),
+        ..shader = ui.Gradient.radial(
+          p(0.5, 0.38),
+          s * 0.95,
+          const [Color(0xFF4433E0), Color(0xFF231A86), Color(0xFF0C0838)],
+          const [0.0, 0.55, 1.0],
+        ),
     );
     // Cool light from the top-left.
     canvas.drawRect(
@@ -188,12 +192,30 @@ class BrandArt {
       canvas.drawCircle(p(x, y), s * d, dot);
     }
 
-    GlassBubble.paint(canvas, p(0.5, 0.285) + Offset(0, -bob), s * r, gold,
-        glow: 0.5, monochrome: monochrome);
-    GlassBubble.paint(canvas, p(0.31, 0.615) + Offset(0, bob * 0.6), s * r, magenta,
-        glow: 0.5, monochrome: monochrome);
-    GlassBubble.paint(canvas, p(0.69, 0.615) + Offset(0, bob), s * r, azure,
-        glow: 0.5, monochrome: monochrome);
+    GlassBubble.paint(
+      canvas,
+      p(0.5, 0.285) + Offset(0, -bob),
+      s * r,
+      gold,
+      glow: 0.5,
+      monochrome: monochrome,
+    );
+    GlassBubble.paint(
+      canvas,
+      p(0.31, 0.615) + Offset(0, bob * 0.6),
+      s * r,
+      magenta,
+      glow: 0.5,
+      monochrome: monochrome,
+    );
+    GlassBubble.paint(
+      canvas,
+      p(0.69, 0.615) + Offset(0, bob),
+      s * r,
+      azure,
+      glow: 0.5,
+      monochrome: monochrome,
+    );
 
     if (!monochrome) {
       final twinkle = 0.75 + 0.25 * math.sin(time * 3);
@@ -215,8 +237,10 @@ class BrandEmblem extends StatefulWidget {
 }
 
 class _BrandEmblemState extends State<BrandEmblem> with SingleTickerProviderStateMixin {
-  late final AnimationController _controller =
-      AnimationController(vsync: this, duration: const Duration(seconds: 8))..repeat();
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(seconds: 8),
+  )..repeat();
 
   @override
   void dispose() {
@@ -226,9 +250,9 @@ class _BrandEmblemState extends State<BrandEmblem> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) => SizedBox.square(
-        dimension: widget.size,
-        child: RepaintBoundary(child: CustomPaint(painter: _EmblemPainter(_controller))),
-      );
+    dimension: widget.size,
+    child: RepaintBoundary(child: CustomPaint(painter: _EmblemPainter(_controller))),
+  );
 }
 
 class _EmblemPainter extends CustomPainter {

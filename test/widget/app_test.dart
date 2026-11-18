@@ -35,20 +35,24 @@ Future<void> frames(WidgetTester tester, [int count = 1]) async {
 /// Opens a GameScreen driven by [engine] from a simple launcher page.
 Future<void> openGame(WidgetTester tester, AppServices services, GameEngine engine) async {
   usePhoneScreen(tester);
-  await tester.pumpWidget(MaterialApp(
-    home: Builder(
-      builder: (context) => Scaffold(
-        body: Center(
-          child: ElevatedButton(
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(
-              builder: (_) => GameScreen(services: services, engine: engine),
-            )),
-            child: const Text('launch'),
+  await tester.pumpWidget(
+    MaterialApp(
+      home: Builder(
+        builder: (context) => Scaffold(
+          body: Center(
+            child: ElevatedButton(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => GameScreen(services: services, engine: engine),
+                ),
+              ),
+              child: const Text('launch'),
+            ),
           ),
         ),
       ),
     ),
-  ));
+  );
   await tester.tap(find.text('launch'));
   await frames(tester, 60); // route transition + level intro slide
   expect(engine.phase.value, GamePhase.aiming);

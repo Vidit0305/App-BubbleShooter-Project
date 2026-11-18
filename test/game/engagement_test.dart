@@ -111,7 +111,10 @@ void main() {
       for (var i = 0; i < 30; i++) {
         engine.update(1 / 60);
       }
-      final popLevels = [for (final (s, l) in sounds) if (s == GameSound.pop) l];
+      final popLevels = [
+        for (final (s, l) in sounds)
+          if (s == GameSound.pop) l,
+      ];
       expect(popLevels, [0, 1, 2]);
       expect(engine.effects.shockwaves.isNotEmpty || engine.effects.pops.isEmpty, isTrue);
     });

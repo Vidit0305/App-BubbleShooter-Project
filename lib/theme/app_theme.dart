@@ -32,29 +32,21 @@ class AppTheme {
   const AppTheme._();
 
   static ThemeData get theme => ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: AppColors.backgroundBottom,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: AppColors.buttonBlue,
-          brightness: Brightness.dark,
-        ),
-        textTheme: const TextTheme().apply(
-          bodyColor: Colors.white,
-          displayColor: Colors.white,
-        ),
-      );
+    useMaterial3: true,
+    brightness: Brightness.dark,
+    scaffoldBackgroundColor: AppColors.backgroundBottom,
+    colorScheme: ColorScheme.fromSeed(seedColor: AppColors.buttonBlue, brightness: Brightness.dark),
+    textTheme: const TextTheme().apply(bodyColor: Colors.white, displayColor: Colors.white),
+  );
 
   /// Bold arcade label style.
   static TextStyle label(double size, {Color color = Colors.white}) => TextStyle(
-        fontSize: size,
-        fontWeight: FontWeight.w900,
-        letterSpacing: size * 0.08,
-        color: color,
-        shadows: const [
-          Shadow(color: Color(0x99000000), offset: Offset(0, 2), blurRadius: 3),
-        ],
-      );
+    fontSize: size,
+    fontWeight: FontWeight.w900,
+    letterSpacing: size * 0.08,
+    color: color,
+    shadows: const [Shadow(color: Color(0x99000000), offset: Offset(0, 2), blurRadius: 3)],
+  );
 }
 
 /// Full-screen premium backdrop.
@@ -104,10 +96,7 @@ class GlassPanel extends StatelessWidget {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [
-                Colors.white.withValues(alpha: 0.16),
-                Colors.white.withValues(alpha: 0.05),
-              ],
+              colors: [Colors.white.withValues(alpha: 0.16), Colors.white.withValues(alpha: 0.05)],
             ),
             border: Border.all(color: Colors.white.withValues(alpha: 0.22), width: 1.5),
           ),

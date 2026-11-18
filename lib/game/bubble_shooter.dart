@@ -57,9 +57,7 @@ class BubbleShooter {
 
   /// A random color among [available] (falls back to all colors).
   BubbleColor pickColor(Set<BubbleColor> available) {
-    final pool = available.isEmpty
-        ? BubbleColor.values
-        : available.toList(growable: false);
+    final pool = available.isEmpty ? BubbleColor.values : available.toList(growable: false);
     return pool[_random.nextInt(pool.length)];
   }
 

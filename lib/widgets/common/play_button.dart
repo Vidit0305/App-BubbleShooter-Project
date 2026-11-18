@@ -17,8 +17,10 @@ class PlayButton extends StatefulWidget {
 }
 
 class _PlayButtonState extends State<PlayButton> with SingleTickerProviderStateMixin {
-  late final AnimationController _controller =
-      AnimationController(vsync: this, duration: const Duration(milliseconds: 3200))..repeat();
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 3200),
+  )..repeat();
   bool _pressed = false;
 
   @override
@@ -64,7 +66,8 @@ class _PlayButtonState extends State<PlayButton> with SingleTickerProviderStateM
                   border: Border.all(color: Colors.white.withValues(alpha: 0.8), width: 2.5),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFFFF8A00).withValues(alpha: 0.35 + 0.2 * (breath - 1) / 0.03),
+                      color: const Color(0xFFFF8A00)
+                          .withValues(alpha: 0.35 + 0.2 * (breath - 1) / 0.03),
                       blurRadius: 28,
                       spreadRadius: 2,
                     ),
@@ -104,11 +107,13 @@ class _PlayButtonState extends State<PlayButton> with SingleTickerProviderStateM
                           angle: 0.35,
                           child: DecoratedBox(
                             decoration: BoxDecoration(
-                              gradient: LinearGradient(colors: [
-                                Colors.white.withValues(alpha: 0),
-                                Colors.white.withValues(alpha: 0.55),
-                                Colors.white.withValues(alpha: 0),
-                              ]),
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.white.withValues(alpha: 0),
+                                  Colors.white.withValues(alpha: 0.55),
+                                  Colors.white.withValues(alpha: 0),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -124,8 +129,12 @@ class _PlayButtonState extends State<PlayButton> with SingleTickerProviderStateM
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 38,
-                    shadows: [Shadow(color: Color(0x99A34500), offset: Offset(0, 2), blurRadius: 2)]),
+                const Icon(
+                  Icons.play_arrow_rounded,
+                  color: Colors.white,
+                  size: 38,
+                  shadows: [Shadow(color: Color(0x99A34500), offset: Offset(0, 2), blurRadius: 2)],
+                ),
                 const SizedBox(width: 6),
                 Text(
                   widget.label,

@@ -34,8 +34,7 @@ class BubbleGrid {
 
   int columnsInRow(int row) => isRowShifted(row) ? columns - 1 : columns;
 
-  bool isValidCell(int row, int col) =>
-      row >= 0 && col >= 0 && col < columnsInRow(row);
+  bool isValidCell(int row, int col) => row >= 0 && col >= 0 && col < columnsInRow(row);
 
   BubbleColor? colorAt(int row, int col) {
     if (row < 0 || row >= _rows.length) return null;
@@ -89,10 +88,8 @@ class BubbleGrid {
   }
 
   /// Center of a cell in world units.
-  Offset centerOf(int row, int col) => Offset(
-        radius + col * diameter + (isRowShifted(row) ? radius : 0),
-        radius + row * rowHeight,
-      );
+  Offset centerOf(int row, int col) =>
+      Offset(radius + col * diameter + (isRowShifted(row) ? radius : 0), radius + row * rowHeight);
 
   Offset centerOfCell(GridCell cell) => centerOf(cell.row, cell.col);
 
@@ -127,9 +124,7 @@ class BubbleGrid {
   GridCell nearestCell(Offset p) {
     final row = math.max(0, ((p.dy - radius) / rowHeight).round());
     final shift = isRowShifted(row) ? radius : 0.0;
-    final col = ((p.dx - radius - shift) / diameter)
-        .round()
-        .clamp(0, columnsInRow(row) - 1);
+    final col = ((p.dx - radius - shift) / diameter).round().clamp(0, columnsInRow(row) - 1);
     return GridCell(row, col);
   }
 

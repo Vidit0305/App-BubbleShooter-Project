@@ -107,12 +107,11 @@ class AssetAudioService implements AudioService {
     ], 0.65),
     Sfx.fall: _SfxSpec(['sounds/fall.wav'], 0.55),
     Sfx.click: _SfxSpec(['sounds/click.wav'], 0.45),
-    Sfx.combo: _SfxSpec([
-      'sounds/combo_2.wav',
-      'sounds/combo_3.wav',
-      'sounds/combo_4.wav',
-      'sounds/combo_5.wav',
-    ], 0.6, voices: 1),
+    Sfx.combo: _SfxSpec(
+      ['sounds/combo_2.wav', 'sounds/combo_3.wav', 'sounds/combo_4.wav', 'sounds/combo_5.wav'],
+      0.6,
+      voices: 1,
+    ),
     Sfx.praise: _SfxSpec(['sounds/praise.wav'], 0.6, voices: 1),
     Sfx.rainbow: _SfxSpec(['sounds/rainbow.wav'], 0.6, voices: 1),
     Sfx.newRow: _SfxSpec(['sounds/new_row.wav'], 0.6, voices: 1),
@@ -201,11 +200,14 @@ class AssetAudioService implements AudioService {
     }
     _updateMusic();
 
-    await Future.wait(_specs.entries.map((entry) async {
-      final spec = entry.value;
-      _channels[entry.key] = await Future.wait(
-          spec.files.map((f) => _loadChannel(f, spec.volume, spec.voices)));
-    }));
+    await Future.wait(
+      _specs.entries.map((entry) async {
+        final spec = entry.value;
+        _channels[entry.key] = await Future.wait(
+          spec.files.map((f) => _loadChannel(f, spec.volume, spec.voices)),
+        );
+      }),
+    );
   }
 
   @override
@@ -217,10 +219,12 @@ class AssetAudioService implements AudioService {
     if (channel == null) return;
     final player = channel.players[channel.next++ % channel.players.length];
     // stop() resets the player so resume() replays from the start.
-    unawaited(player
-        .stop()
-        .then((_) => player.resume())
-        .catchError((Object e) => debugPrint('AudioService: play failed: $e')));
+    unawaited(
+      player
+          .stop()
+          .then((_) => player.resume())
+          .catchError((Object e) => debugPrint('AudioService: play failed: $e')),
+    );
   }
 
   void _updateMusic() {
@@ -229,14 +233,18 @@ class AssetAudioService implements AudioService {
     final shouldPlay = _musicEnabled && !_suspended;
     if (shouldPlay && !_musicPlaying) {
       _musicPlaying = true;
-      unawaited(music.resume().catchError((Object e) {
-        debugPrint('AudioService: music failed: $e');
-      }));
+      unawaited(
+        music.resume().catchError((Object e) {
+          debugPrint('AudioService: music failed: $e');
+        }),
+      );
     } else if (!shouldPlay && _musicPlaying) {
       _musicPlaying = false;
-      unawaited(music.pause().catchError((Object e) {
-        debugPrint('AudioService: music pause failed: $e');
-      }));
+      unawaited(
+        music.pause().catchError((Object e) {
+          debugPrint('AudioService: music pause failed: $e');
+        }),
+      );
     }
   }
 

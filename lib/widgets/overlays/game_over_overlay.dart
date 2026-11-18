@@ -34,8 +34,11 @@ class GameOverOverlay extends StatelessWidget {
           const Center(child: _NewHighScoreBadge()),
           const SizedBox(height: 14),
         ],
-        Text('SCORE',
-            textAlign: TextAlign.center, style: AppTheme.label(14, color: AppColors.lightBlue)),
+        Text(
+          'SCORE',
+          textAlign: TextAlign.center,
+          style: AppTheme.label(14, color: AppColors.lightBlue),
+        ),
         TweenAnimationBuilder<int>(
           tween: IntTween(begin: 0, end: score),
           duration: const Duration(milliseconds: 700),
@@ -44,10 +47,16 @@ class GameOverOverlay extends StatelessWidget {
               Text('$value', textAlign: TextAlign.center, style: AppTheme.label(44)),
         ),
         const SizedBox(height: 8),
-        Text('BEST',
-            textAlign: TextAlign.center, style: AppTheme.label(14, color: AppColors.lightBlue)),
-        Text('$bestScore',
-            textAlign: TextAlign.center, style: AppTheme.label(24, color: AppColors.gold)),
+        Text(
+          'BEST',
+          textAlign: TextAlign.center,
+          style: AppTheme.label(14, color: AppColors.lightBlue),
+        ),
+        Text(
+          '$bestScore',
+          textAlign: TextAlign.center,
+          style: AppTheme.label(24, color: AppColors.gold),
+        ),
         const SizedBox(height: 24),
         GameButton(label: 'RESTART', icon: Icons.refresh_rounded, onPressed: onRestart),
         const SizedBox(height: 14),
@@ -94,17 +103,16 @@ class _NewHighScoreBadgeState extends State<_NewHighScoreBadge>
   @override
   Widget build(BuildContext context) {
     return ScaleTransition(
-      scale: Tween<double>(begin: 0.94, end: 1.06).animate(
-        CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-      ),
+      scale: Tween<double>(
+        begin: 0.94,
+        end: 1.06,
+      ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut)),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           color: AppColors.gold,
           borderRadius: BorderRadius.circular(20),
-          boxShadow: const [
-            BoxShadow(color: Color(0x88FFD60A), blurRadius: 16),
-          ],
+          boxShadow: const [BoxShadow(color: Color(0x88FFD60A), blurRadius: 16)],
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -114,8 +122,10 @@ class _NewHighScoreBadgeState extends State<_NewHighScoreBadge>
             Flexible(
               child: FittedBox(
                 fit: BoxFit.scaleDown,
-                child: Text('NEW HIGH SCORE!',
-                    style: AppTheme.label(15, color: AppColors.navy).copyWith(shadows: const [])),
+                child: Text(
+                  'NEW HIGH SCORE!',
+                  style: AppTheme.label(15, color: AppColors.navy).copyWith(shadows: const []),
+                ),
               ),
             ),
           ],

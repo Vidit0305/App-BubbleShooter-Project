@@ -104,8 +104,7 @@ class CollisionDetector {
       }
       final hit = findCollision(grid, Offset(x, y));
       if (hit != null) {
-        return MoveResult(Offset(x, y), Offset(dx, dy), MoveOutcome.hitBubble,
-            hitCell: hit);
+        return MoveResult(Offset(x, y), Offset(dx, dy), MoveOutcome.hitBubble, hitCell: hit);
       }
     }
     return MoveResult(Offset(x, y), Offset(dx, dy), MoveOutcome.moving);

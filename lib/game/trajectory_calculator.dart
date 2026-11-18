@@ -19,11 +19,7 @@ class TrajectoryResult {
 
 /// Predicts the path of a shot using the same physics as the real bubble.
 class TrajectoryCalculator {
-  const TrajectoryCalculator({
-    this.maxBounces = 3,
-    this.maxLength = 250,
-    this.stepLength = 0.5,
-  });
+  const TrajectoryCalculator({this.maxBounces = 3, this.maxLength = 250, this.stepLength = 0.5});
 
   final int maxBounces;
   final double maxLength;
@@ -43,12 +39,18 @@ class TrajectoryCalculator {
 
     while (travelled < maxLength) {
       var cut = false;
-      final result = detector.move(grid, pos, dir, stepLength, onBounce: (p) {
-        if (cut) return;
-        points.add(p);
-        bounces++;
-        if (bounces > maxBounces) cut = true;
-      });
+      final result = detector.move(
+        grid,
+        pos,
+        dir,
+        stepLength,
+        onBounce: (p) {
+          if (cut) return;
+          points.add(p);
+          bounces++;
+          if (bounces > maxBounces) cut = true;
+        },
+      );
       if (cut) {
         return TrajectoryResult(points: points, landingCell: null);
       }
@@ -57,10 +59,7 @@ class TrajectoryCalculator {
       travelled += stepLength;
       if (result.stopped) {
         points.add(pos);
-        return TrajectoryResult(
-          points: points,
-          landingCell: detector.findSnapCell(grid, pos),
-        );
+        return TrajectoryResult(points: points, landingCell: detector.findSnapCell(grid, pos));
       }
     }
     points.add(pos);

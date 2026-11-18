@@ -51,8 +51,10 @@ class HomeScreen extends StatelessWidget {
                           const SizedBox(height: 10),
                           Text(
                             'POP  •  MATCH  •  RELAX',
-                            style: AppTheme.label(12, color: AppColors.lightBlue.withValues(alpha: 0.85))
-                                .copyWith(letterSpacing: 4),
+                            style: AppTheme.label(
+                              12,
+                              color: AppColors.lightBlue.withValues(alpha: 0.85),
+                            ).copyWith(letterSpacing: 4),
                           ),
                           const Spacer(flex: 2),
                           ListenableBuilder(
@@ -110,8 +112,10 @@ class _Title extends StatefulWidget {
 }
 
 class _TitleState extends State<_Title> with SingleTickerProviderStateMixin {
-  late final AnimationController _controller =
-      AnimationController(vsync: this, duration: const Duration(milliseconds: 2800))..repeat();
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 2800),
+  )..repeat();
 
   @override
   void dispose() {

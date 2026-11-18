@@ -37,11 +37,7 @@ void main() {
 
     test('purely diagonal chains match', () {
       // Zig-zag down the middle: (0,4) -> (1,4) -> (2,4), each a diagonal link.
-      final grid = gridFromRows(9, [
-        'B B . . R . . . .',
-        '. . . . R . . .',
-        '. . . . R . . . .',
-      ]);
+      final grid = gridFromRows(9, ['B B . . R . . . .', '. . . . R . . .', '. . . . R . . . .']);
       final match = MatchFinder.findMatch(grid, const GridCell(2, 4));
       expect(match.toSet(), {const GridCell(0, 4), const GridCell(1, 4), const GridCell(2, 4)});
     });
@@ -64,11 +60,7 @@ void main() {
     });
 
     test('bubbles cut off from the ceiling float, regardless of color', () {
-      final grid = gridFromRows(9, [
-        'B . . . R R . . .',
-        '. . . . G . . .',
-        '. . . . Y . . . .',
-      ]);
+      final grid = gridFromRows(9, ['B . . . R R . . .', '. . . . G . . .', '. . . . Y . . . .']);
       // Remove the R anchors: G and Y lose their connection to the ceiling.
       grid.remove(0, 4);
       grid.remove(0, 5);
@@ -76,11 +68,7 @@ void main() {
     });
 
     test('bubbles connected to the ceiling through other colors stay', () {
-      final grid = gridFromRows(9, [
-        'B . . . . . . . .',
-        'G . . . . . . .',
-        'R Y . . . . . . .',
-      ]);
+      final grid = gridFromRows(9, ['B . . . . . . . .', 'G . . . . . . .', 'R Y . . . . . . .']);
       expect(MatchFinder.findFloating(grid), isEmpty);
       grid.remove(1, 0);
       expect(MatchFinder.findFloating(grid).toSet(), {const GridCell(2, 0), const GridCell(2, 1)});

@@ -10,8 +10,7 @@ class GridCell {
   final int col;
 
   @override
-  bool operator ==(Object other) =>
-      other is GridCell && other.row == row && other.col == col;
+  bool operator ==(Object other) => other is GridCell && other.row == row && other.col == col;
 
   @override
   int get hashCode => row * 1000 + col;

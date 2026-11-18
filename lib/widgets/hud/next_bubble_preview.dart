@@ -42,16 +42,14 @@ class NextBubblePreview extends StatelessWidget {
                     ScaleTransition(scale: animation, child: child),
                 child: rainbow.value
                     ? RainbowBubbleView(key: const ValueKey('rainbow'), size: bubbleSize)
-                    : BubbleView(
-                        key: ValueKey(color.value),
-                        color: color.value,
-                        size: bubbleSize,
-                      ),
+                    : BubbleView(key: ValueKey(color.value), color: color.value, size: bubbleSize),
               ),
             ),
             const SizedBox(height: 2),
-            Text('TAP TO SWAP',
-                style: AppTheme.label(7, color: Colors.white.withValues(alpha: 0.6))),
+            Text(
+              'TAP TO SWAP',
+              style: AppTheme.label(7, color: Colors.white.withValues(alpha: 0.6)),
+            ),
           ],
         ),
       ),
@@ -80,8 +78,10 @@ class ShotsIndicator extends StatelessWidget {
             children: [
               Text('NEW ROW', style: AppTheme.label(11, color: AppColors.lightBlue)),
               const SizedBox(height: 4),
-              Text('$value',
-                  style: AppTheme.label(22, color: urgent ? AppColors.danger : Colors.white)),
+              Text(
+                '$value',
+                style: AppTheme.label(22, color: urgent ? AppColors.danger : Colors.white),
+              ),
               const SizedBox(height: 4),
               Row(
                 mainAxisSize: MainAxisSize.min,

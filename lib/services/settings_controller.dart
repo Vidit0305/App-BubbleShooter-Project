@@ -10,7 +10,7 @@ enum Haptic { light, medium, heavy, selection }
 /// and applied to the [AudioService].
 class SettingsController extends ChangeNotifier {
   SettingsController({required StorageService storage, required this.audio})
-      : _storage = storage; // ignore: prefer_initializing_formals
+    : _storage = storage; // ignore: prefer_initializing_formals
 
   final StorageService _storage;
   final AudioService audio;

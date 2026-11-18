@@ -70,8 +70,7 @@ class _GameButtonState extends State<GameButton> {
               border: Border.all(color: Colors.white.withValues(alpha: 0.55), width: 2),
               boxShadow: [
                 BoxShadow(color: edge, offset: Offset(0, _pressed ? 2 : 5)),
-                const BoxShadow(
-                    color: Color(0x55000000), blurRadius: 10, offset: Offset(0, 6)),
+                const BoxShadow(color: Color(0x55000000), blurRadius: 10, offset: Offset(0, 6)),
               ],
             ),
             foregroundDecoration: BoxDecoration(

@@ -49,16 +49,13 @@ void main() {
       expect(grid.neighborsOf(3, 4).length, 6); // shifted row
       expect(grid.neighborsOf(0, 0).length, 2); // top-left corner
       expect(grid.neighborsOf(2, 0).length, 3); // left edge of a full row
-      expect(
-        grid.neighborsOf(1, 0).toSet(),
-        {
-          const GridCell(1, 1),
-          const GridCell(0, 0),
-          const GridCell(0, 1),
-          const GridCell(2, 0),
-          const GridCell(2, 1),
-        },
-      );
+      expect(grid.neighborsOf(1, 0).toSet(), {
+        const GridCell(1, 1),
+        const GridCell(0, 0),
+        const GridCell(0, 1),
+        const GridCell(2, 0),
+        const GridCell(2, 1),
+      });
     });
 
     test('nearestCell maps positions back to cells', () {
@@ -77,8 +74,12 @@ void main() {
       expect(grid.bubbleCount, 4);
       expect(grid.colorAt(0, 1), BubbleColor.blue);
       expect(grid.colorAt(1, 1), BubbleColor.yellow);
-      expect(grid.colorsPresent,
-          {BubbleColor.red, BubbleColor.blue, BubbleColor.green, BubbleColor.yellow});
+      expect(grid.colorsPresent, {
+        BubbleColor.red,
+        BubbleColor.blue,
+        BubbleColor.green,
+        BubbleColor.yellow,
+      });
       expect(grid.remove(0, 1), BubbleColor.blue);
       expect(grid.isOccupied(0, 1), isFalse);
       expect(grid.lowestOccupiedRow, 1);
@@ -111,8 +112,7 @@ void main() {
       expect(grid.centerOf(1, 2).dy, closeTo(before.dy + BubbleGrid.rowHeight, 1e-9));
       // The new top row is shifted (old row 0 was full), so it has 8 bubbles.
       expect(grid.columnsInRow(0), 8);
-      expect(List.generate(8, (c) => grid.colorAt(0, c)),
-          everyElement(BubbleColor.orange));
+      expect(List.generate(8, (c) => grid.colorAt(0, c)), everyElement(BubbleColor.orange));
       // Honeycomb still intact.
       for (final n in grid.neighborsOf(1, 2)) {
         expect((grid.centerOf(1, 2) - grid.centerOfCell(n)).distance, closeTo(2, 1e-9));

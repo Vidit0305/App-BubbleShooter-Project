@@ -36,8 +36,10 @@ class LevelClearedBanner extends StatelessWidget {
                 const SizedBox(height: 6),
                 Text('+$bonus BONUS', style: AppTheme.label(18)),
                 const SizedBox(height: 4),
-                Text('GET READY FOR LEVEL $nextLevel',
-                    style: AppTheme.label(12, color: AppColors.lightBlue)),
+                Text(
+                  'GET READY FOR LEVEL $nextLevel',
+                  style: AppTheme.label(12, color: AppColors.lightBlue),
+                ),
               ],
             ),
           ),

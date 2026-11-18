@@ -28,8 +28,7 @@ class PremiumBackground extends StatefulWidget {
   State<PremiumBackground> createState() => _PremiumBackgroundState();
 }
 
-class _PremiumBackgroundState extends State<PremiumBackground>
-    with SingleTickerProviderStateMixin {
+class _PremiumBackgroundState extends State<PremiumBackground> with SingleTickerProviderStateMixin {
   static const double _period = 60; // seconds per animation cycle
   late final AnimationController _controller = AnimationController(
     vsync: this,
@@ -103,8 +102,13 @@ class _BackgroundPainter extends CustomPainter {
   static final math.Random _rnd = math.Random(42);
   static final List<_Star> _stars = List.generate(
     70,
-    (_) => _Star(_rnd.nextDouble(), _rnd.nextDouble(), 0.6 + _rnd.nextDouble() * 1.6,
-        _rnd.nextDouble() * math.pi * 2, 0.5 + _rnd.nextDouble() * 1.5),
+    (_) => _Star(
+      _rnd.nextDouble(),
+      _rnd.nextDouble(),
+      0.6 + _rnd.nextDouble() * 1.6,
+      _rnd.nextDouble() * math.pi * 2,
+      0.5 + _rnd.nextDouble() * 1.5,
+    ),
   );
   static const List<Color> _bubbleColors = [
     Color(0xFF6FD3FF),
@@ -137,11 +141,12 @@ class _BackgroundPainter extends CustomPainter {
     final diag = math.sqrt(w * w + h * h);
 
     // Base gradient.
-    _paint.shader = ui.Gradient.linear(rect.topCenter, rect.bottomCenter, const [
-      Color(0xFF1C1670),
-      Color(0xFF0F0B45),
-      Color(0xFF06041F),
-    ], const [0.0, 0.5, 1.0]);
+    _paint.shader = ui.Gradient.linear(
+      rect.topCenter,
+      rect.bottomCenter,
+      const [Color(0xFF1C1670), Color(0xFF0F0B45), Color(0xFF06041F)],
+      const [0.0, 0.5, 1.0],
+    );
     canvas.drawRect(rect, _paint);
 
     // Aurora glows drifting on slow Lissajous paths (periods divide 60 s,
@@ -155,12 +160,24 @@ class _BackgroundPainter extends CustomPainter {
       canvas.drawRect(rect, _paint);
     }
 
-    glow(Offset(w * (0.2 + 0.12 * math.sin(omega * t)), h * (0.18 + 0.06 * math.cos(omega * 2 * t))),
-        diag * 0.55, const Color(0xFF7B3FF2), 0.45);
-    glow(Offset(w * (0.85 + 0.1 * math.cos(omega * t)), h * (0.42 + 0.08 * math.sin(omega * t))),
-        diag * 0.5, const Color(0xFF00B4FF), 0.32);
-    glow(Offset(w * (0.35 + 0.15 * math.sin(omega * 3 * t)), h * (0.88 + 0.04 * math.cos(omega * t))),
-        diag * 0.5, const Color(0xFFFF3CAC), 0.22);
+    glow(
+      Offset(w * (0.2 + 0.12 * math.sin(omega * t)), h * (0.18 + 0.06 * math.cos(omega * 2 * t))),
+      diag * 0.55,
+      const Color(0xFF7B3FF2),
+      0.45,
+    );
+    glow(
+      Offset(w * (0.85 + 0.1 * math.cos(omega * t)), h * (0.42 + 0.08 * math.sin(omega * t))),
+      diag * 0.5,
+      const Color(0xFF00B4FF),
+      0.32,
+    );
+    glow(
+      Offset(w * (0.35 + 0.15 * math.sin(omega * 3 * t)), h * (0.88 + 0.04 * math.cos(omega * t))),
+      diag * 0.5,
+      const Color(0xFFFF3CAC),
+      0.22,
+    );
 
     // Stars.
     for (final s in _stars) {
@@ -187,10 +204,12 @@ class _BackgroundPainter extends CustomPainter {
     }
 
     // Vignette.
-    _paint.shader = ui.Gradient.radial(rect.center, diag * 0.62, [
-      Colors.transparent,
-      const Color(0xAA02010F),
-    ], const [0.55, 1.0]);
+    _paint.shader = ui.Gradient.radial(
+      rect.center,
+      diag * 0.62,
+      [Colors.transparent, const Color(0xAA02010F)],
+      const [0.55, 1.0],
+    );
     canvas.drawRect(rect, _paint);
     _paint.shader = null;
   }
@@ -208,8 +227,13 @@ class _BackgroundPainter extends CustomPainter {
     _ring
       ..strokeWidth = math.max(1, r * 0.12)
       ..color = Colors.white.withValues(alpha: 0.5);
-    canvas.drawArc(Rect.fromCircle(center: c, radius: r * 0.68), math.pi * 1.1, math.pi * 0.45,
-        false, _ring);
+    canvas.drawArc(
+      Rect.fromCircle(center: c, radius: r * 0.68),
+      math.pi * 1.1,
+      math.pi * 0.45,
+      false,
+      _ring,
+    );
   }
 
   @override

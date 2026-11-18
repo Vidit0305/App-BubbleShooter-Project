@@ -133,10 +133,7 @@ void main() {
 
     test('diagonal matches pop', () {
       final engine = createEngine();
-      loadBoard(engine, [
-        'B B . . R . . . .',
-        '. . . . R . . .',
-      ]);
+      loadBoard(engine, ['B B . . R . . . .', '. . . . R . . .']);
       // Straight up: hits the shifted (1,4) and snaps to (2,4), whose only
       // red neighbor is the diagonal (1,4), which links diagonally to (0,4).
       shoot(engine, BubbleColor.red, const Offset(9, 0));
@@ -181,8 +178,8 @@ void main() {
         expect(engine.shotsUntilNewRow.value, 4 - i);
       }
       final rowsBefore = engine.grid.rowCount;
-      final bottomColorBefore = engine.grid.colorAt(rowsBefore - 1, 4) ??
-          engine.grid.colorAt(rowsBefore - 1, 3);
+      final bottomColorBefore =
+          engine.grid.colorAt(rowsBefore - 1, 4) ?? engine.grid.colorAt(rowsBefore - 1, 3);
 
       engine.shooter.current = BubbleColor.red;
       engine.aimAt(const Offset(1, 0));
@@ -213,8 +210,7 @@ void main() {
       final engine = createEngine();
       final dangerRow = engine.layout.dangerRow;
       loadBoard(engine, [
-        for (var r = 0; r < dangerRow; r++)
-          r.isEven ? 'B G B G B G B G B' : 'G B G B G B G B',
+        for (var r = 0; r < dangerRow; r++) r.isEven ? 'B G B G B G B G B' : 'G B G B G B G B',
       ]);
       expect(engine.phase.value, GamePhase.aiming);
       shoot(engine, BubbleColor.yellow, const Offset(9, 0));
@@ -227,8 +223,7 @@ void main() {
       final engine = createEngine();
       final dangerRow = engine.layout.dangerRow;
       loadBoard(engine, [
-        for (var r = 0; r < dangerRow - 1; r++)
-          r.isEven ? 'B G B G B G B G B' : 'G B G B G B G B',
+        for (var r = 0; r < dangerRow - 1; r++) r.isEven ? 'B G B G B G B G B' : 'G B G B G B G B',
       ]);
       final colors = [BubbleColor.yellow, BubbleColor.purple, BubbleColor.orange];
       for (var i = 0; i < GameEngine.shotsPerRow && engine.phase.value == GamePhase.aiming; i++) {

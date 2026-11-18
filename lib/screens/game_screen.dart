@@ -37,8 +37,7 @@ class _GameOverInfo {
 
 class _GameScreenState extends State<GameScreen> with SingleTickerProviderStateMixin {
   late final GameFeedback _feedback = GameFeedback(widget.services.settings);
-  late final GameEngine _engine = (widget.engine ?? GameEngine())
-    ..onSound = _feedback.onGameSound;
+  late final GameEngine _engine = (widget.engine ?? GameEngine())..onSound = _feedback.onGameSound;
   late final Ticker _ticker = createTicker(_onTick);
   late final AppLifecycleListener _lifecycle;
   final ValueNotifier<int> _best = ValueNotifier<int>(0);

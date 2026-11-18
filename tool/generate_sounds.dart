@@ -207,10 +207,12 @@ Float64List _praise() {
   final parts = <(double, Float64List, double)>[
     for (var i = 0; i < notes.length; i++) (i * 0.055, _bell(midi(notes[i]), 0.6), 0.6),
   ];
-  final shimmer = _render(0.8,
-      frequency: (t) => 4000,
-      voice: (p, t) => _white() * (0.5 + 0.5 * _sine(t * 30)),
-      envelope: (t) => 0.05 * _decay(t, 0.8, attack: 0.1, power: 2));
+  final shimmer = _render(
+    0.8,
+    frequency: (t) => 4000,
+    voice: (p, t) => _white() * (0.5 + 0.5 * _sine(t * 30)),
+    envelope: (t) => 0.05 * _decay(t, 0.8, attack: 0.1, power: 2),
+  );
   return _mix(0.9, [...parts, (0.0, shimmer, 1.0)]);
 }
 
@@ -241,10 +243,12 @@ Float64List _newRow() {
 }
 
 Float64List _danger() {
-  Float64List beep() => _render(0.16,
-      frequency: (t) => 330,
-      voice: (p, t) => 0.7 * _triangle(p) + 0.3 * _sine(p * 0.5),
-      envelope: (t) => 0.45 * _decay(t, 0.16, attack: 0.01, power: 1.2));
+  Float64List beep() => _render(
+    0.16,
+    frequency: (t) => 330,
+    voice: (p, t) => 0.7 * _triangle(p) + 0.3 * _sine(p * 0.5),
+    envelope: (t) => 0.45 * _decay(t, 0.16, attack: 0.01, power: 1.2),
+  );
   return _mix(0.45, [(0.0, beep(), 1.0), (0.22, beep(), 1.0)]);
 }
 
@@ -261,10 +265,16 @@ Float64List _gameOver() {
   const notes = [(67, 0.0), (64, 0.25), (60, 0.5), (55, 0.75)];
   return _mix(1.6, [
     for (final (n, at) in notes)
-      (at, _render(at == 0.75 ? 0.85 : 0.3,
+      (
+        at,
+        _render(
+          at == 0.75 ? 0.85 : 0.3,
           frequency: (t) => midi(n) * (1 + 0.012 * math.sin(2 * math.pi * 5 * t)),
           voice: (p, t) => 0.7 * _sine(p) + 0.3 * _triangle(p),
-          envelope: (t) => 0.5 * _decay(t, at == 0.75 ? 0.85 : 0.3, attack: 0.01, power: 1.2)), 1.0),
+          envelope: (t) => 0.5 * _decay(t, at == 0.75 ? 0.85 : 0.3, attack: 0.01, power: 1.2),
+        ),
+        1.0,
+      ),
   ]);
 }
 
@@ -315,8 +325,15 @@ Float64List _music() {
     7: [43, 50, 55, 59], // G
   };
 
-  void addVoice(Float64List target, int start, int length, double Function(double t) wave,
-      double gain, {double attack = 0.01, double release = 0.2}) {
+  void addVoice(
+    Float64List target,
+    int start,
+    int length,
+    double Function(double t) wave,
+    double gain, {
+    double attack = 0.01,
+    double release = 0.2,
+  }) {
     final a = (attack * sampleRate).round();
     final r = (release * sampleRate).round();
     for (var i = 0; i < length + r; i++) {
@@ -337,10 +354,18 @@ Float64List _music() {
       final len = at(4);
       for (final n in notes.skip(1)) {
         final f = midi(n + 12);
-        addVoice(dry, start, len, (t) {
-          final lfo = 1 + 0.002 * _sine(t * 0.3);
-          return 0.5 * _sine(f * t * lfo) + 0.5 * _sine(f * 1.003 * t) + 0.12 * _sine(f * 2 * t);
-        }, 0.045, attack: half == 0 ? 0.9 : 0.4, release: 1.4);
+        addVoice(
+          dry,
+          start,
+          len,
+          (t) {
+            final lfo = 1 + 0.002 * _sine(t * 0.3);
+            return 0.5 * _sine(f * t * lfo) + 0.5 * _sine(f * 1.003 * t) + 0.12 * _sine(f * 2 * t);
+          },
+          0.045,
+          attack: half == 0 ? 0.9 : 0.4,
+          release: 1.4,
+        );
       }
     }
   }
@@ -352,9 +377,15 @@ Float64List _music() {
       for (var half = 0; half < 2; half++) {
         final n = half == 0 ? root - 12 : root - 5;
         final f = midi(n);
-        addVoice(dry, at(c * 8.0 + bar * 4 + half * 2), at(1.8),
-            (t) => _sine(f * t) + 0.25 * _sine(2 * f * t) * math.exp(-t * 3),
-            0.16, attack: 0.03, release: 0.5);
+        addVoice(
+          dry,
+          at(c * 8.0 + bar * 4 + half * 2),
+          at(1.8),
+          (t) => _sine(f * t) + 0.25 * _sine(2 * f * t) * math.exp(-t * 3),
+          0.16,
+          attack: 0.03,
+          release: 0.5,
+        );
       }
     }
   }
@@ -372,13 +403,30 @@ Float64List _music() {
         final gain = e.isEven ? 0.07 : 0.05;
         final start = at(c * 8.0 + bar * 4 + e * 0.5);
         final len = at(1.2);
-        addVoice(dry, start, len, (t) {
-          final d1 = math.exp(-t * 4.5);
-          final d2 = math.exp(-t * 14);
-          return _sine(f * t) * d1 + 0.3 * _sine(f * 2.76 * t) * d2 + 0.12 * _sine(f * 5.4 * t) * d2;
-        }, gain, attack: 0.004, release: 0.1);
-        addVoice(echoSend, start, len, (t) => _sine(f * t) * math.exp(-t * 4.5), gain * 0.6,
-            attack: 0.004, release: 0.1);
+        addVoice(
+          dry,
+          start,
+          len,
+          (t) {
+            final d1 = math.exp(-t * 4.5);
+            final d2 = math.exp(-t * 14);
+            return _sine(f * t) * d1 +
+                0.3 * _sine(f * 2.76 * t) * d2 +
+                0.12 * _sine(f * 5.4 * t) * d2;
+          },
+          gain,
+          attack: 0.004,
+          release: 0.1,
+        );
+        addVoice(
+          echoSend,
+          start,
+          len,
+          (t) => _sine(f * t) * math.exp(-t * 4.5),
+          gain * 0.6,
+          attack: 0.004,
+          release: 0.1,
+        );
       }
     }
   }
@@ -401,10 +449,18 @@ Float64List _music() {
     final f = midi(n);
     final s = at(start);
     final l = at(len * 0.95);
-    addVoice(dry, s, l, (t) {
-      final vib = 1 + 0.004 * _sine(t * 5) * math.min(1, t / 0.4);
-      return 0.8 * _sine(f * t * vib) + 0.15 * _sine(2 * f * t * vib) + 0.03 * _white();
-    }, 0.085, attack: 0.08, release: 0.45);
+    addVoice(
+      dry,
+      s,
+      l,
+      (t) {
+        final vib = 1 + 0.004 * _sine(t * 5) * math.min(1, t / 0.4);
+        return 0.8 * _sine(f * t * vib) + 0.15 * _sine(2 * f * t * vib) + 0.03 * _white();
+      },
+      0.085,
+      attack: 0.08,
+      release: 0.45,
+    );
     addVoice(wetSend, s, l, (t) => _sine(f * t), 0.05, attack: 0.08, release: 0.45);
   }
 

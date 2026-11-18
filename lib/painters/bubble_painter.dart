@@ -63,29 +63,25 @@ class RainbowBubblePainter {
   const RainbowBubblePainter._();
 
   static final Paint _body = Paint()
-    ..shader = const SweepGradient(colors: [
-      Color(0xFFFF3B3B),
-      Color(0xFFFF8A1F),
-      Color(0xFFFFD60A),
-      Color(0xFF2ECC40),
-      Color(0xFF2F80FF),
-      Color(0xFFA442F5),
-      Color(0xFFFF3B3B),
-    ]).createShader(Rect.fromCircle(center: Offset.zero, radius: 1));
+    ..shader = const SweepGradient(
+      colors: [
+        Color(0xFFFF3B3B),
+        Color(0xFFFF8A1F),
+        Color(0xFFFFD60A),
+        Color(0xFF2ECC40),
+        Color(0xFF2F80FF),
+        Color(0xFFA442F5),
+        Color(0xFFFF3B3B),
+      ],
+    ).createShader(Rect.fromCircle(center: Offset.zero, radius: 1));
   static final Paint _pearl = Paint()
-    ..shader = ui.Gradient.radial(Offset.zero, 0.75, const [
-      Color(0xB3FFFFFF),
-      Color(0x00FFFFFF),
-    ]);
+    ..shader = ui.Gradient.radial(Offset.zero, 0.75, const [Color(0xB3FFFFFF), Color(0x00FFFFFF)]);
   static final Paint _rim = Paint()
     ..style = PaintingStyle.stroke
     ..strokeWidth = 0.08
     ..color = const Color(0xE6FFFFFF);
   static final Paint _glow = Paint()
-    ..shader = ui.Gradient.radial(Offset.zero, 1.6, const [
-      Color(0x66FFFFFF),
-      Color(0x00FFFFFF),
-    ]);
+    ..shader = ui.Gradient.radial(Offset.zero, 1.6, const [Color(0x66FFFFFF), Color(0x00FFFFFF)]);
   static final Paint _shadow = Paint()..color = const Color(0x40000000);
   static final Paint _highlight = Paint()..color = const Color(0xCCFFFFFF);
 
@@ -111,17 +107,17 @@ class RainbowBubblePainter {
 
 class _BubbleStyle {
   _BubbleStyle(BubbleColor color)
-      : body = Paint()
-          ..shader = ui.Gradient.radial(
-            const Offset(-0.35, -0.4),
-            1.5,
-            [color.light, color.color, color.dark],
-            const [0.0, 0.5, 1.0],
-          ),
-        rim = Paint()
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 0.08
-          ..color = Color.lerp(color.dark, const Color(0xFF000000), 0.2)!;
+    : body = Paint()
+        ..shader = ui.Gradient.radial(
+          const Offset(-0.35, -0.4),
+          1.5,
+          [color.light, color.color, color.dark],
+          const [0.0, 0.5, 1.0],
+        ),
+      rim = Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 0.08
+        ..color = Color.lerp(color.dark, const Color(0xFF000000), 0.2)!;
 
   final Paint body;
   final Paint rim;
@@ -136,9 +132,9 @@ class BubbleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox.square(
-        dimension: size,
-        child: CustomPaint(painter: _SingleBubblePainter(color)),
-      );
+    dimension: size,
+    child: CustomPaint(painter: _SingleBubblePainter(color)),
+  );
 }
 
 /// A spinning rainbow bubble widget (next-bubble preview).
@@ -151,10 +147,11 @@ class RainbowBubbleView extends StatefulWidget {
   State<RainbowBubbleView> createState() => _RainbowBubbleViewState();
 }
 
-class _RainbowBubbleViewState extends State<RainbowBubbleView>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller =
-      AnimationController(vsync: this, duration: const Duration(seconds: 4))..repeat();
+class _RainbowBubbleViewState extends State<RainbowBubbleView> with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(seconds: 4),
+  )..repeat();
 
   @override
   void dispose() {
@@ -164,9 +161,9 @@ class _RainbowBubbleViewState extends State<RainbowBubbleView>
 
   @override
   Widget build(BuildContext context) => SizedBox.square(
-        dimension: widget.size,
-        child: CustomPaint(painter: _RainbowPainter(_controller)),
-      );
+    dimension: widget.size,
+    child: CustomPaint(painter: _RainbowPainter(_controller)),
+  );
 }
 
 class _RainbowPainter extends CustomPainter {
@@ -176,8 +173,12 @@ class _RainbowPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    RainbowBubblePainter.paint(canvas, size.center(Offset.zero), size.shortestSide / 2 * 0.85,
-        animation.value * 4 * 2 * 3.14159265 / 1.8);
+    RainbowBubblePainter.paint(
+      canvas,
+      size.center(Offset.zero),
+      size.shortestSide / 2 * 0.85,
+      animation.value * 4 * 2 * 3.14159265 / 1.8,
+    );
   }
 
   @override

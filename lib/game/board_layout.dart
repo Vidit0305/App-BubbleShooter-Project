@@ -5,11 +5,7 @@ import 'bubble_grid.dart';
 /// Maps the playfield (world units, bubble radius = 1) onto the screen and
 /// positions the shooter and danger line.
 class BoardLayout {
-  BoardLayout._({
-    required this.columns,
-    required this.scale,
-    required this.worldHeight,
-  });
+  BoardLayout._({required this.columns, required this.scale, required this.worldHeight});
 
   /// Builds a layout for a world of a given size (used by tests).
   factory BoardLayout.world({required int columns, required double worldHeight}) =>
@@ -31,11 +27,7 @@ class BoardLayout {
 
   static BoardLayout _fit(Size size, int columns) {
     final scale = size.width / (columns * BubbleGrid.diameter);
-    return BoardLayout._(
-      columns: columns,
-      scale: scale,
-      worldHeight: size.height / scale,
-    );
+    return BoardLayout._(columns: columns, scale: scale, worldHeight: size.height / scale);
   }
 
   /// Preferred bubble diameter in logical pixels.
@@ -61,15 +53,13 @@ class BoardLayout {
 
   double get worldWidth => columns * BubbleGrid.diameter;
 
-  Offset get shooterPosition =>
-      Offset(worldWidth / 2, worldHeight - launcherAreaHeight / 2);
+  Offset get shooterPosition => Offset(worldWidth / 2, worldHeight - launcherAreaHeight / 2);
 
   double get dangerLineY => worldHeight - launcherAreaHeight - dangerGap;
 
   /// Number of rows that fit completely above the danger line. A bubble in
   /// a row with index >= [dangerRow] has crossed it.
-  int get dangerRow =>
-      ((dangerLineY - BubbleGrid.diameter) / BubbleGrid.rowHeight).floor() + 1;
+  int get dangerRow => ((dangerLineY - BubbleGrid.diameter) / BubbleGrid.rowHeight).floor() + 1;
 
   Offset toWorld(Offset logicalPixels) => logicalPixels / scale;
 

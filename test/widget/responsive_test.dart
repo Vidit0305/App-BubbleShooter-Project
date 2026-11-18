@@ -20,8 +20,9 @@ const sizes = <Size>[
 
 void main() {
   for (final size in sizes) {
-    testWidgets('all screens lay out without overflow at ${size.width}x${size.height}',
-        (tester) async {
+    testWidgets('all screens lay out without overflow at ${size.width}x${size.height}', (
+      tester,
+    ) async {
       tester.view.physicalSize = size * 2;
       tester.view.devicePixelRatio = 2;
       addTearDown(tester.view.reset);
@@ -38,7 +39,11 @@ void main() {
 
       // Game, pause and game over.
       final engine = GameEngine(random: math.Random(1));
-      await tester.pumpWidget(MaterialApp(home: GameScreen(services: services, engine: engine)));
+      await tester.pumpWidget(
+        MaterialApp(
+          home: GameScreen(services: services, engine: engine),
+        ),
+      );
       await frames(tester, 60);
       expect(engine.phase.value, GamePhase.aiming);
 
@@ -47,8 +52,11 @@ void main() {
       final layout = engine.layout;
       expect(layout.worldWidth * layout.scale, closeTo(board.width, 0.01));
       expect(layout.worldHeight * layout.scale, closeTo(board.height, 0.01));
-      expect(layout.dangerRow, greaterThan(engine.grid.rowCount + 3),
-          reason: 'room to play above the danger line');
+      expect(
+        layout.dangerRow,
+        greaterThan(engine.grid.rowCount + 3),
+        reason: 'room to play above the danger line',
+      );
       expect(layout.scale * 2, inInclusiveRange(24, 72), reason: 'bubble diameter in px');
 
       engine.pause();

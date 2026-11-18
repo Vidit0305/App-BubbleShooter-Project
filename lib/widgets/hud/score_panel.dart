@@ -33,24 +33,16 @@ class ScorePanel extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [
-            AppColors.panel.withValues(alpha: 0.92),
-            AppColors.navy.withValues(alpha: 0.85),
-          ],
+          colors: [AppColors.panel.withValues(alpha: 0.92), AppColors.navy.withValues(alpha: 0.85)],
         ),
-        border: Border(
-          bottom: BorderSide(color: Colors.white.withValues(alpha: 0.18), width: 1.5),
-        ),
-        boxShadow: const [BoxShadow(color: Color(0x66000000), blurRadius: 12, offset: Offset(0, 4))],
+        border: Border(bottom: BorderSide(color: Colors.white.withValues(alpha: 0.18), width: 1.5)),
+        boxShadow: const [
+          BoxShadow(color: Color(0x66000000), blurRadius: 12, offset: Offset(0, 4)),
+        ],
       ),
       child: Row(
         children: [
-          GameIconButton(
-            icon: Icons.pause_rounded,
-            tooltip: 'Pause',
-            size: 44,
-            onPressed: onPause,
-          ),
+          GameIconButton(icon: Icons.pause_rounded, tooltip: 'Pause', size: 44, onPressed: onPause),
           Expanded(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -140,8 +132,7 @@ class _BumpingNumber extends StatefulWidget {
   State<_BumpingNumber> createState() => _BumpingNumberState();
 }
 
-class _BumpingNumberState extends State<_BumpingNumber>
-    with SingleTickerProviderStateMixin {
+class _BumpingNumberState extends State<_BumpingNumber> with SingleTickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 260),
@@ -182,10 +173,8 @@ class _BumpingNumberState extends State<_BumpingNumber>
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _controller,
-      builder: (context, child) => Transform.scale(
-        scale: 1 + 0.25 * math.sin(math.pi * _controller.value),
-        child: child,
-      ),
+      builder: (context, child) =>
+          Transform.scale(scale: 1 + 0.25 * math.sin(math.pi * _controller.value), child: child),
       child: FittedBox(
         fit: BoxFit.scaleDown,
         child: Text('$_value', style: widget.style),

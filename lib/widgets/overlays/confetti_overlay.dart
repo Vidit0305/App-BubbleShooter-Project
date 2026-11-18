@@ -56,13 +56,12 @@ class _ConfettiOverlayState extends State<ConfettiOverlay> with SingleTickerProv
   @override
   Widget build(BuildContext context) {
     return IgnorePointer(
-      child: LayoutBuilder(builder: (context, constraints) {
-        _size = constraints.biggest;
-        return CustomPaint(
-          size: Size.infinite,
-          painter: _ConfettiPainter(_effects, _frame),
-        );
-      }),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          _size = constraints.biggest;
+          return CustomPaint(size: Size.infinite, painter: _ConfettiPainter(_effects, _frame));
+        },
+      ),
     );
   }
 }
@@ -84,7 +83,10 @@ class _ConfettiPainter extends CustomPainter {
       canvas.translate(c.position.dx, c.position.dy);
       canvas.rotate(c.rotation);
       canvas.scale(math.cos(c.age * c.flip).abs() * 0.85 + 0.15, 1);
-      canvas.drawRect(Rect.fromCenter(center: Offset.zero, width: c.width, height: c.height), _paint);
+      canvas.drawRect(
+        Rect.fromCenter(center: Offset.zero, width: c.width, height: c.height),
+        _paint,
+      );
       canvas.restore();
     }
     canvas.restore();

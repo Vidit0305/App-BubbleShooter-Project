@@ -98,7 +98,12 @@ void main() {
     test('angled shot shows the reflected path after a wall', () {
       final grid = BubbleGrid(columns: 9);
       final a = 60 * math.pi / 180;
-      final t = calc.compute(grid, detector, const Offset(9, 25), Offset(math.cos(a), -math.sin(a)));
+      final t = calc.compute(
+        grid,
+        detector,
+        const Offset(9, 25),
+        Offset(math.cos(a), -math.sin(a)),
+      );
       expect(t.bounceCount, 1);
       expect(t.points[1].dx, 18 - BubbleGrid.radius);
       expect(t.points.last.dx, lessThan(t.points[1].dx));
@@ -115,7 +120,12 @@ void main() {
     test('very shallow shots are cut after the bounce limit', () {
       final grid = BubbleGrid(columns: 9);
       final a = 11 * math.pi / 180;
-      final t = calc.compute(grid, detector, const Offset(9, 25), Offset(math.cos(a), -math.sin(a)));
+      final t = calc.compute(
+        grid,
+        detector,
+        const Offset(9, 25),
+        Offset(math.cos(a), -math.sin(a)),
+      );
       expect(t.bounceCount, calc.maxBounces);
       expect(t.landingCell, isNull);
     });

@@ -27,8 +27,7 @@ class FallingBubble {
 }
 
 class Particle {
-  Particle(this.position, this.velocity, this.color, this.life, this.size)
-      : maxLife = life;
+  Particle(this.position, this.velocity, this.color, this.life, this.size) : maxLife = life;
 
   Offset position;
   Offset velocity;
@@ -172,8 +171,7 @@ class GameEffects {
     falls.add(FallingBubble(position, Offset(vx, vy), color));
   }
 
-  void addPopup(Offset position, String text) =>
-      popups.add(ScorePopup(position, text));
+  void addPopup(Offset position, String text) => popups.add(ScorePopup(position, text));
 
   /// Shows a banner. A new banner replaces any banner still on screen so
   /// they never overlap.
@@ -198,32 +196,36 @@ class GameEffects {
   void rainConfetti(double width, int count) {
     for (var i = 0; i < count && confetti.length < maxConfetti; i++) {
       final at = Offset(_random.nextDouble() * width, -1 - _random.nextDouble() * 8);
-      confetti.add(_piece(at, Offset((_random.nextDouble() - 0.5) * 6, 4 + _random.nextDouble() * 6)));
+      confetti.add(
+        _piece(at, Offset((_random.nextDouble() - 0.5) * 6, 4 + _random.nextDouble() * 6)),
+      );
     }
   }
 
   Confetti _piece(Offset at, Offset velocity) => Confetti(
-        position: at,
-        velocity: velocity,
-        color: confettiColors[_random.nextInt(confettiColors.length)],
-        width: 0.35 + _random.nextDouble() * 0.25,
-        height: 0.18 + _random.nextDouble() * 0.12,
-        spin: (_random.nextDouble() - 0.5) * 14,
-        flip: 4 + _random.nextDouble() * 8,
-        life: 2.2 + _random.nextDouble() * 1.4,
-      );
+    position: at,
+    velocity: velocity,
+    color: confettiColors[_random.nextInt(confettiColors.length)],
+    width: 0.35 + _random.nextDouble() * 0.25,
+    height: 0.18 + _random.nextDouble() * 0.12,
+    spin: (_random.nextDouble() - 0.5) * 14,
+    flip: 4 + _random.nextDouble() * 8,
+    life: 2.2 + _random.nextDouble() * 1.4,
+  );
 
   void _burst(Offset at, Color color) {
     for (var i = 0; i < 7 && particles.length < maxParticles; i++) {
       final angle = _random.nextDouble() * math.pi * 2;
       final speed = 4 + _random.nextDouble() * 8;
-      particles.add(Particle(
-        at,
-        Offset(math.cos(angle) * speed, math.sin(angle) * speed),
-        color,
-        0.3 + _random.nextDouble() * 0.3,
-        0.12 + _random.nextDouble() * 0.16,
-      ));
+      particles.add(
+        Particle(
+          at,
+          Offset(math.cos(angle) * speed, math.sin(angle) * speed),
+          color,
+          0.3 + _random.nextDouble() * 0.3,
+          0.12 + _random.nextDouble() * 0.16,
+        ),
+      );
     }
   }
 
@@ -251,8 +253,7 @@ class GameEffects {
     final damping = math.pow(0.08, dt).toDouble();
     for (final p in particles) {
       p.life -= dt;
-      p.velocity = Offset(p.velocity.dx * damping,
-          p.velocity.dy * damping + gravity * 0.3 * dt);
+      p.velocity = Offset(p.velocity.dx * damping, p.velocity.dy * damping + gravity * 0.3 * dt);
       p.position += p.velocity * dt;
     }
     particles.removeWhere((p) => p.life <= 0);

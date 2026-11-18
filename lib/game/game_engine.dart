@@ -82,8 +82,7 @@ class ShotResult {
 /// [configure], [aimAt], [fire], [update], [pause]/[resume] and observes the
 /// [ValueNotifier]s and [ChangeNotifier] (which ticks once per frame).
 class GameEngine extends ChangeNotifier {
-  GameEngine({math.Random? random, this.onSound})
-      : _random = random ?? math.Random() {
+  GameEngine({math.Random? random, this.onSound}) : _random = random ?? math.Random() {
     shooter = BubbleShooter(_random);
     effects = GameEffects(_random);
   }
@@ -170,8 +169,7 @@ class GameEngine extends ChangeNotifier {
     if (!isReady || phase.value != GamePhase.aiming) return null;
     final aim = shooter.aimDirection;
     if (_trajectoryDirty || aim != _trajectoryAim) {
-      _trajectory =
-          _trajectoryCalculator.compute(grid, _detector!, shooter.position, aim);
+      _trajectory = _trajectoryCalculator.compute(grid, _detector!, shooter.position, aim);
       _trajectoryAim = aim;
       _trajectoryDirty = false;
     }
@@ -225,8 +223,10 @@ class GameEngine extends ChangeNotifier {
   /// always room above the danger line.
   int initialRowsFor(int level) {
     final wanted = math.min(GameConfig.baseRows + level, GameConfig.maxStartRows);
-    return math.max(GameConfig.minStartRows,
-        math.min(wanted, layout.dangerRow - GameConfig.safetyRows));
+    return math.max(
+      GameConfig.minStartRows,
+      math.min(wanted, layout.dangerRow - GameConfig.safetyRows),
+    );
   }
 
   void _startLevel(int newLevel) {
@@ -254,8 +254,10 @@ class GameEngine extends ChangeNotifier {
   /// from an already placed neighbor); clustering decreases with level.
   void _generateBoard(int lvl) {
     final rows = initialRowsFor(lvl);
-    final clusterChance = math.max(GameConfig.minClusterChance,
-        GameConfig.clusterChance - GameConfig.clusterChanceStep * (lvl - 1));
+    final clusterChance = math.max(
+      GameConfig.minClusterChance,
+      GameConfig.clusterChance - GameConfig.clusterChanceStep * (lvl - 1),
+    );
     const palette = BubbleColor.values;
     for (var r = 0; r < rows; r++) {
       for (var c = 0; c < grid.columnsInRow(r); c++) {
@@ -406,8 +408,12 @@ class GameEngine extends ChangeNotifier {
     _flyCarry -= steps * quantum;
     _bouncedThisFrame = false;
     final result = _detector!.move(
-        grid, bubble.position, bubble.direction, steps * quantum,
-        onBounce: _onBounce);
+      grid,
+      bubble.position,
+      bubble.direction,
+      steps * quantum,
+      onBounce: _onBounce,
+    );
     bubble
       ..position = result.position
       ..direction = result.direction;

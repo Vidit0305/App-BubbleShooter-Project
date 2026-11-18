@@ -22,8 +22,6 @@ class StorageService {
 
   Future<void> setBestScore(int value) => _prefs.setInt(bestScoreKey, value);
   Future<void> setSfxEnabled(bool value) => _prefs.setBool(sfxEnabledKey, value);
-  Future<void> setMusicEnabled(bool value) =>
-      _prefs.setBool(musicEnabledKey, value);
-  Future<void> setVibrationEnabled(bool value) =>
-      _prefs.setBool(vibrationEnabledKey, value);
+  Future<void> setMusicEnabled(bool value) => _prefs.setBool(musicEnabledKey, value);
+  Future<void> setVibrationEnabled(bool value) => _prefs.setBool(vibrationEnabledKey, value);
 }

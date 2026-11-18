@@ -22,7 +22,9 @@ class GamePainter extends CustomPainter {
   static const double _dotSpacing = 1.1;
   static const double _dotRadius = 0.17;
   static final RRect _barrel = RRect.fromRectAndRadius(
-      const Rect.fromLTWH(0, -0.55, 2.4, 1.1), const Radius.circular(0.35));
+    const Rect.fromLTWH(0, -0.55, 2.4, 1.1),
+    const Radius.circular(0.35),
+  );
   static const List<Color> _rainbowColors = [
     Color(0xFFFF5A5A),
     Color(0xFFFFA23A),
@@ -97,8 +99,7 @@ class GamePainter extends CustomPainter {
     _paintDangerLine(canvas);
     _paintGrid(canvas);
     if (engine.phase.value == GamePhase.gameOver) {
-      canvas.drawRect(
-          Rect.fromLTWH(0, 0, layout.worldWidth, layout.worldHeight), _dimPaint);
+      canvas.drawRect(Rect.fromLTWH(0, 0, layout.worldWidth, layout.worldHeight), _dimPaint);
     }
     _paintTrajectory(canvas);
     _paintLauncher(canvas);
@@ -115,8 +116,11 @@ class GamePainter extends CustomPainter {
   void _paintWalls(Canvas canvas) {
     final l = engine.layout;
     canvas.drawLine(const Offset(0.04, 0), Offset(0.04, l.worldHeight), _wallPaint);
-    canvas.drawLine(Offset(l.worldWidth - 0.04, 0),
-        Offset(l.worldWidth - 0.04, l.worldHeight), _wallPaint);
+    canvas.drawLine(
+      Offset(l.worldWidth - 0.04, 0),
+      Offset(l.worldWidth - 0.04, l.worldHeight),
+      _wallPaint,
+    );
   }
 
   /// Red glow rising from the bottom while bubbles are close to the line.
@@ -146,8 +150,7 @@ class GamePainter extends CustomPainter {
     const dash = 0.7;
     const gap = 0.45;
     for (var x = 0.2; x < l.worldWidth; x += dash + gap) {
-      canvas.drawLine(
-          Offset(x, y), Offset(math.min(x + dash, l.worldWidth), y), _dangerPaint);
+      canvas.drawLine(Offset(x, y), Offset(math.min(x + dash, l.worldWidth), y), _dangerPaint);
     }
   }
 
@@ -230,9 +233,8 @@ class GamePainter extends CustomPainter {
 
     // Base ring (drawn in local coordinates so the cached shader stays valid).
     const baseRadius = 1.45;
-    _baseFill.shader ??= const RadialGradient(
-      colors: [Color(0xFF4B4FD8), Color(0xFF1B1766)],
-    ).createShader(Rect.fromCircle(center: Offset.zero, radius: baseRadius));
+    _baseFill.shader ??= const RadialGradient(colors: [Color(0xFF4B4FD8), Color(0xFF1B1766)])
+        .createShader(Rect.fromCircle(center: Offset.zero, radius: baseRadius));
     canvas.drawCircle(Offset.zero, baseRadius, _baseFill);
     canvas.drawCircle(Offset.zero, baseRadius, _baseRim);
     canvas.restore();
@@ -282,8 +284,14 @@ class GamePainter extends CustomPainter {
       }
       final t = p.progress;
       final s = t < 0.3 ? 1 + t * 0.6 : 1.18 * (1 - (t - 0.3) / 0.7);
-      BubblePainter.paint(canvas, p.position, BubbleGrid.radius * s, p.color,
-          opacity: 1 - t, shadow: false);
+      BubblePainter.paint(
+        canvas,
+        p.position,
+        BubbleGrid.radius * s,
+        p.color,
+        opacity: 1 - t,
+        shadow: false,
+      );
     }
     for (final p in fx.particles) {
       _particlePaint.color = p.color.withValues(alpha: p.fraction);
@@ -298,7 +306,9 @@ class GamePainter extends CustomPainter {
       // Squash horizontally to fake the paper flipping in 3D.
       canvas.scale(math.cos(c.age * c.flip).abs() * 0.85 + 0.15, 1);
       canvas.drawRect(
-          Rect.fromCenter(center: Offset.zero, width: c.width, height: c.height), _confettiPaint);
+        Rect.fromCenter(center: Offset.zero, width: c.width, height: c.height),
+        _confettiPaint,
+      );
       canvas.restore();
     }
   }
@@ -314,9 +324,7 @@ class GamePainter extends CustomPainter {
             fontSize: 1.3 * scale,
             fontWeight: FontWeight.w900,
             color: Colors.white,
-            shadows: const [
-              Shadow(color: Color(0xCC000000), offset: Offset(1, 2), blurRadius: 3),
-            ],
+            shadows: const [Shadow(color: Color(0xCC000000), offset: Offset(1, 2), blurRadius: 3)],
           ),
         ),
         textDirection: TextDirection.ltr,
@@ -349,8 +357,13 @@ class GamePainter extends CustomPainter {
       final topLeft = Offset(-text.fill.width / 2, -text.fill.height / 2);
       _layerPaint.color = Color.fromRGBO(0, 0, 0, opacity);
       canvas.saveLayer(
-          Rect.fromCenter(center: Offset.zero, width: text.fill.width + 40, height: text.fill.height + 40),
-          _layerPaint);
+        Rect.fromCenter(
+          center: Offset.zero,
+          width: text.fill.width + 40,
+          height: text.fill.height + 40,
+        ),
+        _layerPaint,
+      );
       text.stroke.paint(canvas, topLeft);
       text.fill.paint(canvas, topLeft);
       canvas.restore();
@@ -398,18 +411,19 @@ class _BannerText {
         horizontal = true;
     }
     final shader = horizontal
-        ? ui.Gradient.linear(Offset.zero, Offset(width, 0), colors,
-            [for (var i = 0; i < colors.length; i++) i / (colors.length - 1)])
+        ? ui.Gradient.linear(Offset.zero, Offset(width, 0), colors, [
+            for (var i = 0; i < colors.length; i++) i / (colors.length - 1),
+          ])
         : ui.Gradient.linear(Offset.zero, Offset(0, height), colors, const [0.0, 0.5, 1.0]);
 
     TextStyle style(Paint foreground, List<Shadow> shadows) => TextStyle(
-          fontFamily: fontFamily,
-          fontSize: fontSize,
-          fontWeight: FontWeight.w900,
-          letterSpacing: fontSize * 0.04,
-          foreground: foreground,
-          shadows: shadows,
-        );
+      fontFamily: fontFamily,
+      fontSize: fontSize,
+      fontWeight: FontWeight.w900,
+      letterSpacing: fontSize * 0.04,
+      foreground: foreground,
+      shadows: shadows,
+    );
 
     final stroke = TextPainter(
       text: TextSpan(

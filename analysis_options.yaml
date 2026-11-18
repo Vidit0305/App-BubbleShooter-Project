@@ -29,3 +29,6 @@ linter:
     - prefer_final_in_for_each
     - unnecessary_lambdas
     - use_named_constants
+
+formatter:
+  page_width: 100
