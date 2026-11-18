@@ -78,9 +78,13 @@ class ShotsIndicator extends StatelessWidget {
             children: [
               Text('NEW ROW', style: AppTheme.label(11, color: AppColors.lightBlue)),
               const SizedBox(height: 4),
-              Text(
-                '$value',
-                style: AppTheme.label(22, color: urgent ? AppColors.danger : Colors.white),
+              Pulse(
+                key: const ValueKey('shots-pulse'),
+                active: urgent,
+                child: Text(
+                  '$value',
+                  style: AppTheme.label(22, color: urgent ? AppColors.danger : Colors.white),
+                ),
               ),
               const SizedBox(height: 4),
               Row(
@@ -107,4 +111,61 @@ class ShotsIndicator extends StatelessWidget {
       },
     );
   }
+}
+
+/// Gently scales its child up and down while [active], drawing attention to
+/// a warning without being distracting.
+class Pulse extends StatefulWidget {
+  const Pulse({super.key, required this.active, required this.child});
+
+  final bool active;
+  final Widget child;
+
+  @override
+  State<Pulse> createState() => _PulseState();
+}
+
+class _PulseState extends State<Pulse> with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 550),
+  );
+  late final Animation<double> _scale = Tween<double>(
+    begin: 1,
+    end: 1.3,
+  ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+
+  /// Whether the pulse animation is currently running (for tests).
+  bool get isPulsing => _controller.isAnimating;
+
+  @override
+  void initState() {
+    super.initState();
+    _sync();
+  }
+
+  @override
+  void didUpdateWidget(Pulse oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _sync();
+  }
+
+  void _sync() {
+    if (widget.active && !_controller.isAnimating) {
+      _controller.repeat(reverse: true);
+    } else if (!widget.active && _controller.isAnimating) {
+      _controller
+        ..stop()
+        ..value = 0;
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => ScaleTransition(scale: _scale, child: widget.child);
 }
